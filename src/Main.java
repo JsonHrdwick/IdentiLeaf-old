@@ -1,9 +1,22 @@
+import com.google.gson.Strictness;
+import com.google.gson.stream.JsonReader;
 
+import java.io.*;
 import java.sql.*;
+import java.util.Scanner;
+
 
 public class Main {
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        try (Connection con = DriverManager.getConnection(creds.databaseid, creds.dbusername, creds.dbpassword)) {
+
+    static String databaseid;
+    static String dbusername;
+    static String dbpassword;
+
+    public static void main(String[] args) throws SQLException, IOException {
+
+        jsonReader();
+
+        try (Connection con = DriverManager.getConnection(databaseid, dbusername, dbpassword)) {
 
             Statement stmt = con.createStatement();
 
@@ -28,7 +41,34 @@ public class Main {
         String question = Q.promptQuestion();
 
         System.out.println(question);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
         }
 
+    }
+
+    public static void jsonReader() throws IOException {
+        String json = fileReader("creds.json");
+
+        JsonReader jsonReader = new JsonReader( new StringReader(json));
+        jsonReader.setStrictness(Strictness.LENIENT);
+        jsonReader.beginObject();
+
+        jsonReader.nextName();
+        databaseid = jsonReader.nextString();
+        jsonReader.nextName();
+        dbusername = jsonReader.nextString();
+        jsonReader.nextName();
+        dbpassword = jsonReader.nextString();
+
+    }
+    public static String fileReader(String filename) throws IOException {
+        File file = new File(filename);
+        Scanner scanner = new Scanner(file);
+        String output = scanner.next();
+        while (scanner.hasNextLine()) {
+            output += scanner.nextLine();
+        }
+        return output;
     }
 }
