@@ -1,3 +1,4 @@
+
 import java.sql.*;
 
 public class Main {
@@ -20,6 +21,14 @@ public class Main {
                         "; Leaf Type: " + rs.getString("LeafType.type") +
                         "; Bark Type: " + rs.getString("BarkType.type"));
             }
+          System.out.println("Hello and welcome!");
+
+        Query Q = new Query();
+
+        String question = Q.promptQuestion();
+
+        System.out.println(question);
         }
+
     }
 }
