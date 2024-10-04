@@ -1,15 +1,34 @@
-import java.io.FileNotFoundException;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import java.sql.*;
+
 public class Main {
-    public static void main(String[] args) throws FileNotFoundException {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.println("Hello and welcome!");
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+        try (Connection con = DriverManager.getConnection(creds.databaseid, creds.dbusername, creds.dbpassword)) {
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("select scientificName, commonName, BarkType.type, LeafType.type, PlantType.type from mydb.Tree\n" +
+                    "inner join mydb.BarkType\n" +
+                    "on Tree.BarkType_ID = BarkType.ID\n" +
+                    "inner join mydb.LeafType\n" +
+                    "on Tree.LeafType_ID = LeafType.ID\n" +
+                    "inner join mydb.PlantType\n" +
+                    "on Tree.PlantType_ID = PlantType.ID");
+
+            while (rs.next()) {
+                System.out.println("Name: " + rs.getString("commonName") +
+                        "; Plant Type: " + rs.getString("PlantType.type") +
+                        "; Leaf Type: " + rs.getString("LeafType.type") +
+                        "; Bark Type: " + rs.getString("BarkType.type"));
+            }
+          System.out.println("Hello and welcome!");
 
         Query Q = new Query();
+
         String question = Q.promptQuestion();
+
         System.out.println(question);
+        }
+
     }
 }
