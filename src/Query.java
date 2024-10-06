@@ -1,10 +1,11 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
 public class Query {
-    private HashMap<Integer,HashMap<String,String[]>> questionMap;
+    private HashMap<Integer,HashMap<String,ArrayList<String>>> questionMap;
     private String question;
     private Integer questionNumber = 0;
 
@@ -13,9 +14,9 @@ public class Query {
     }
 
     // Implement Database pull
-    private HashMap<Integer,HashMap<String,String[]>> generateQuestions() throws FileNotFoundException {
+    private HashMap<Integer,HashMap<String,ArrayList<String>>> generateQuestions() throws FileNotFoundException {
         Scanner scanner = new Scanner(new File("questions.csv"));
-        HashMap<Integer,HashMap<String,String[]>> questionMap = new HashMap<>();
+        HashMap<Integer,HashMap<String,ArrayList<String>>> questionMap = new HashMap<>();
         int questionId = 0;
         while(scanner.hasNext()){
             // Takes line from csv and splits it into an array
@@ -24,9 +25,9 @@ public class Query {
             // Adds ID to Map
             questionMap.put(questionId, new HashMap<>());
             // Array for the answers
-            String[] answers = new String[tokens.length - 1];
+            ArrayList<String> answers = new ArrayList<>(tokens.length - 1);
             for(int i = 1; i < tokens.length; i++){
-                answers[i-1] = tokens[i];
+                answers.add(i - 1, tokens[i]);
             }
             // Adds Question, Answers to the ID Map
             questionMap.get(questionId).put(tokens[0], answers);
@@ -38,8 +39,8 @@ public class Query {
 
     // Implement question pull
     public String promptQuestion(){
-        HashMap<String,String[]> innerMap = questionMap.get(questionNumber);
-        question = innerMap.keySet().toString();
+        HashMap<String,ArrayList<String>> innerMap = questionMap.get(questionNumber);
+        question = innerMap.keySet().toString().replace("[", "").replace("]", "");
         questionNumber++;
         return question;
     }
@@ -63,14 +64,12 @@ public class Query {
 
     // Returns answers as Strings and not SQL style
     public String getAnswers(){
-        String[] answers = questionMap.get(questionNumber-1).get(question);
+        ArrayList<String> answers = questionMap.get(questionNumber-1).get(question);
         String answer = "";
         if (answers == null){ return answer; }
-        for (int i = 0; i <= answers.length; i++){
-            if ((i+1)%2 == 0) {
-                answer += answers[i];
-            }
-            if (i != answers.length-1){
+        for (int i = 0; i < answers.size(); i+=2){
+            answer += answers.get(i);
+            if (i < answers.size() - 2){
                 answer += ",";
             }
         }
