@@ -1,3 +1,1 @@
-Is leaf blue,leafcolor=blue,leafcolor!=blue
-Is leaf red,leafcolor=red,leafcolor!=red
-what shape is the leaf?,leafshape=lobe,leafshape=star,leafshape=arrow
+Is the bark peeling?,yes,where BarkType.type = 'Peeling',no,where BarkType.type != 'Peeling'
