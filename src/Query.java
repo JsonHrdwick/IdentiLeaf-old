@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 public class Query {
     private HashMap<Integer,HashMap<String,String[]>> questionMap;
+    private String question;
     private Integer questionNumber = 0;
 
     Query() throws FileNotFoundException {
@@ -38,17 +39,16 @@ public class Query {
     // Implement question pull
     public String promptQuestion(){
         HashMap<String,String[]> innerMap = questionMap.get(questionNumber);
-        String question = innerMap.keySet().toString();
+        question = innerMap.keySet().toString();
         questionNumber++;
         return question;
     }
 
     // Implement answer adjustment
     public void resolveAnswer(boolean a){
-        if (a){
-            a=true;
-        } else {
-           a=false;
+        if (!a && !questionMap.containsKey(questionNumber)) {
+            questionNumber--;
+            promptQuestion();
         }
     }
 
@@ -59,6 +59,21 @@ public class Query {
         } else {
             return false;
         }
+    }
+
+    // Returns answers as Strings and not SQL style
+    public String getAnswers(){
+        String[] answers = questionMap.get(questionNumber).get(question);
+        String answer = "";
+        for (int i = 0; i < answers.length; i++){
+            if ((i+1)%2 == 0) {
+                answer += answers[i];
+            }
+            if (i != answers.length-1){
+                answer += ",";
+            }
+        }
+        return answer;
     }
 
     // AI API call
