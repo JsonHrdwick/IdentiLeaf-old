@@ -63,9 +63,10 @@ public class Query {
 
     // Returns answers as Strings and not SQL style
     public String getAnswers(){
-        String[] answers = questionMap.get(questionNumber).get(question);
+        String[] answers = questionMap.get(questionNumber-1).get(question);
         String answer = "";
-        for (int i = 0; i < answers.length; i++){
+        if (answers == null){ return answer; }
+        for (int i = 0; i <= answers.length; i++){
             if ((i+1)%2 == 0) {
                 answer += answers[i];
             }

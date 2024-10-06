@@ -12,9 +12,15 @@ public class Main {
     static String dbusername;
     static String dbpassword;
 
-    public static void main(String[] args) throws SQLException, IOException {
+    public static void main(String[] args) throws SQLException, IOException, FileNotFoundException {
 
         jsonReader();
+        Query Q = new Query();
+
+        String question = Q.promptQuestion();
+        String answers = Q.getAnswers();
+        System.out.println(question);
+        System.out.println(answers);
 
         try (Connection con = DriverManager.getConnection(databaseid, dbusername, dbpassword)) {
 
@@ -34,15 +40,8 @@ public class Main {
                         "; Leaf Type: " + rs.getString("LeafType.type") +
                         "; Bark Type: " + rs.getString("BarkType.type"));
             }
-          System.out.println("Hello and welcome!");
+            System.out.println("Hello and welcome!");
 
-        Query Q = new Query();
-
-        String question = Q.promptQuestion();
-
-        System.out.println(question);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         }
 
     }
