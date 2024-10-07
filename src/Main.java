@@ -19,8 +19,7 @@ public class Main {
 
         String question = Q.promptQuestion();
         String answers = Q.getAnswers();
-        System.out.println(question);
-        System.out.println(answers);
+        String userAnswer = userAnswer(question, answers);
 
         try (Connection con = DriverManager.getConnection(databaseid, dbusername, dbpassword)) {
 
@@ -69,5 +68,14 @@ public class Main {
             output += scanner.nextLine();
         }
         return output;
+    }
+    public static String userAnswer(String question,String answers){
+        String wholeAnswer = answers.replace(","," or ");
+        System.out.println(question);
+        System.out.println(wholeAnswer);
+        Scanner scanner = new Scanner(System.in);
+        String userAnswer = scanner.nextLine();
+        scanner.close();
+        return userAnswer;
     }
 }
