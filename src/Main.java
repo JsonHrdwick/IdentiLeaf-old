@@ -11,6 +11,7 @@ public class Main {
     static String databaseid;
     static String dbusername;
     static String dbpassword;
+    static String aikey;
 
     public static void main(String[] args) throws SQLException, IOException, FileNotFoundException {
 
@@ -43,6 +44,8 @@ public class Main {
 
         }
 
+        // COMMENTED OUT TO NOT WASTE API CALLS
+        //System.out.println(Query.callAI("Give me more information on the White Oak Tree", aikey));
     }
 
     public static void jsonReader() throws IOException {
@@ -58,6 +61,8 @@ public class Main {
         dbusername = jsonReader.nextString();
         jsonReader.nextName();
         dbpassword = jsonReader.nextString();
+        jsonReader.nextName();
+        aikey = jsonReader.nextString();
 
     }
     public static String fileReader(String filename) throws IOException {
