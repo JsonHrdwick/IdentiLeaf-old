@@ -1,6 +1,11 @@
-Is the bark peeling?,yes,where BarkBarkTypeType.type = 'Peeling',no,where BarkType.type != 'Peeling'
-
-Is this plant a tree?,yes,WHERE PlantType_ID = 1,no,WHERE PlantType_ID = 2
-Is the leaf scale, needle or broad?,scale,WHERE PlantType_ID = 1 AND LeafType_ID = 1,needle,WHERE PlantType_ID = 1 AND LeafType_ID = 2,broad,WHERE PlantType_ID = 1 AND LeafType_ID = 3
+Is this plant a tree?,yes,WHERE PlantType_ID = 1,no,WHERE PlantType_ID = 2;
+Is the leaf scale needle or broad?,scale,WHERE PlantType_ID = 1 AND LeafType_ID = 1,needle,WHERE PlantType_ID = 1 AND LeafType_ID = 2,broad,WHERE PlantType_ID = 1 AND LeafType_ID = 3
 Does the leaf edge have teeth or is the edge smooth?,teeth edge,WHERE PlantType_ID = 1 AND LeafType_ID = 3 AND (ID = 3 OR ID = 4),smooth edge,WHERE PlantType_ID = 1 AND LeafType_ID = 3 AND (ID = 5 OR ID = 6)
-
+Does the plant have paired samaras and red petiole?,yes,WHERE PlantType_ID = 1 AND LeafType_ID = 3 AND ID = 3,no,
+Is the leaf star-shaped with a spined, round capsule?,yes,WHERE PlantType_ID = 1 AND LeafType_ID = 3 AND ID = 4,no,
+Is the leaf deeply lobed with irregularly plated bark?,yes,WHERE PlantType_ID = 1 AND LeafType_ID = 3 AND BarkType_ID = 3 AND ID = 5,no
+Is the leaf kite-shaped and shallowly lobed?,yes,WHERE PlantType_ID = 1 AND LeafType_ID = 3 AND ID = 6,no,
+Does the plant have a simple or compound leaf?,simple,WHERE PlantType_ID = 1 AND LeafType_ID = 3 AND (ID = 7 OR ID = 8 OR ID = 10),compound,WHERE PlantType_ID = 1 AND LeafType_ID = 3 AND ID = 9
+Is the leaf oval shaped and rough on both sides?,yes,WHERE PlantType_ID = 1 AND LeafType_ID = 3 AND ID = 7,no,
+Is the leaf triangularly shaped with sharp spines on the twigs?,yes,WHERE PlantType_ID = 1 AND LeafType_ID = 3 AND ID = 8,no,
+Does the leaf have a smooth edge?,yes,WHERE PlantType_ID = 1 AND LeafType_ID = 3 AND ID = 10,no,
