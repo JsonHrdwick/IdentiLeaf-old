@@ -1,1 +1,6 @@
-Is the bark peeling?,yes,where BarkType.type = 'Peeling',no,where BarkType.type != 'Peeling'
+Is the bark peeling?,yes,where BarkBarkTypeType.type = 'Peeling',no,where BarkType.type != 'Peeling'
+
+Is this plant a tree?,yes,WHERE PlantType_ID = 1,no,WHERE PlantType_ID = 2
+Is the leaf scale, needle or broad?,scale,WHERE PlantType_ID = 1 AND LeafType_ID = 1,needle,WHERE PlantType_ID = 1 AND LeafType_ID = 2,broad,WHERE PlantType_ID = 1 AND LeafType_ID = 3
+Does the leaf edge have teeth or is the edge smooth?,teeth edge,WHERE PlantType_ID = 1 AND LeafType_ID = 3 AND (ID = 3 OR ID = 4),smooth edge,WHERE PlantType_ID = 1 AND LeafType_ID = 3 AND (ID = 5 OR ID = 6)
+
