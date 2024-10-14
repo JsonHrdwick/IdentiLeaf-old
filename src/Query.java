@@ -11,7 +11,7 @@ import java.net.URL;
 public class Query {
     private HashMap<Integer,HashMap<String,ArrayList<String>>> questionMap;
     private String question;
-    private Integer questionNumber = 0;
+    public Integer questionNumber = 0;
 
     Query() throws FileNotFoundException {
         questionMap = generateQuestions();
@@ -45,30 +45,27 @@ public class Query {
     public String promptQuestion(){
         HashMap<String,ArrayList<String>> innerMap = questionMap.get(questionNumber);
         question = innerMap.keySet().toString().replace("[", "").replace("]", "");
-        questionNumber++;
         return question;
     }
 
     // Implement answer adjustment
-    public void resolveAnswer(boolean a){
-        if (!a && !questionMap.containsKey(questionNumber)) {
-            questionNumber--;
-            promptQuestion();
-        }
+    public String resolveAnswer(String answer){
+        HashMap<String,ArrayList<String>> innerMap = questionMap.get(questionNumber);
+        ArrayList<String> answers = innerMap.get(question);
+        int SQLIndex = answers.indexOf(answer) + 1;
+        questionMap.remove(questionNumber);
+        questionNumber++;
+        return answers.get(SQLIndex);
     }
 
     // Validate output confidence
     public boolean checkConfidence(){
-        if (questionMap.size() == 1){
-            return true;
-        } else {
-            return false;
-        }
+        return questionMap.size() <= 1;
     }
 
     // Returns answers as Strings and not SQL style
     public String getAnswers(){
-        ArrayList<String> answers = questionMap.get(questionNumber-1).get(question);
+        ArrayList<String> answers = questionMap.get(questionNumber).get(question);
         String answer = "";
         if (answers == null){ return answer; }
         for (int i = 0; i < answers.size(); i+=2){
