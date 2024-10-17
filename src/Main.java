@@ -18,32 +18,39 @@ public class Main {
         jsonReader();
         Query Q = new Query();
 
-        String question = Q.promptQuestion();
-        String answers = Q.getAnswers();
-        String userAnswer = userAnswer(question, answers);
+        String initQuery = "select scientificName, commonName, BarkType.type, LeafType.type, PlantType.type from mydb.Tree\n" +
+                "inner join mydb.BarkType\n" +
+                "on Tree.BarkType_ID = BarkType.ID\n" +
+                "inner join mydb.LeafType\n" +
+                "on Tree.LeafType_ID = LeafType.ID\n" +
+                "inner join mydb.PlantType\n" +
+                "on Tree.PlantType_ID = PlantType.ID";
 
-        try (Connection con = DriverManager.getConnection(databaseid, dbusername, dbpassword)) {
+        while (!Q.checkConfidence()) {
 
-            Statement stmt = con.createStatement();
+            try (Connection con = DriverManager.getConnection(databaseid, dbusername, dbpassword)) {
 
-            ResultSet rs = stmt.executeQuery("select scientificName, commonName, BarkType.type, LeafType.type, PlantType.type from mydb.Tree\n" +
-                    "inner join mydb.BarkType\n" +
-                    "on Tree.BarkType_ID = BarkType.ID\n" +
-                    "inner join mydb.LeafType\n" +
-                    "on Tree.LeafType_ID = LeafType.ID\n" +
-                    "inner join mydb.PlantType\n" +
-                    "on Tree.PlantType_ID = PlantType.ID");
+                Statement stmt = con.createStatement();
 
-            while (rs.next()) {
-                System.out.println("Name: " + rs.getString("commonName") +
-                        "; Plant Type: " + rs.getString("PlantType.type") +
-                        "; Leaf Type: " + rs.getString("LeafType.type") +
-                        "; Bark Type: " + rs.getString("BarkType.type"));
+                ResultSet rs = stmt.executeQuery(initQuery);
+
+                while (rs.next()) {
+                    System.out.println("Name: " + rs.getString("commonName") +
+                            "; Plant Type: " + rs.getString("PlantType.type") +
+                            "; Leaf Type: " + rs.getString("LeafType.type") +
+                            "; Bark Type: " + rs.getString("BarkType.type"));
+                }
+                System.out.println("Hello and welcome!");
+
+                String question = Q.promptQuestion();
+                String answers = Q.getAnswers();
+                String userAnswer = userAnswer(question, answers);
+                if (Q.questionNumber == 0){
+                    initQuery += " where ";
+                }
+                initQuery += Q.resolveAnswer(userAnswer) + " ";
             }
-            System.out.println("Hello and welcome!");
-
         }
-
         // COMMENTED OUT TO NOT WASTE API CALLS
         //System.out.println(Query.callAI("Give me more information on the White Oak Tree", aikey));
     }
@@ -72,6 +79,7 @@ public class Main {
         while (scanner.hasNextLine()) {
             output += scanner.nextLine();
         }
+        scanner.close();
         return output;
     }
     public static String userAnswer(String question,String answers){
