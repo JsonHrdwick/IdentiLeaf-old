@@ -13,7 +13,7 @@ public class Main {
     static String dbpassword;
     static String aikey;
 
-    public static void main(String[] args) throws SQLException, IOException, FileNotFoundException {
+    public static void main(String[] args) throws Exception {
 
         jsonReader();
         Query Q = new Query();
@@ -52,7 +52,7 @@ public class Main {
             }
         }
         // COMMENTED OUT TO NOT WASTE API CALLS
-        //System.out.println(Query.callAI("Give me more information on the White Oak Tree", aikey));
+        //System.out.println(AI.callAI("Give me more information on the White Oak Tree", aikey));
     }
 
     public static void jsonReader() throws IOException {
