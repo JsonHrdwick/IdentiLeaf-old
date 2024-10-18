@@ -3,18 +3,16 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 
 public class Query {
     private HashMap<Integer,HashMap<String,ArrayList<String>>> questionMap;
     private String question;
-    public Integer questionNumber = 0;
+    public Integer questionNumber;
 
     Query() throws FileNotFoundException {
         questionMap = generateQuestions();
+        questionNumber = 0;
     }
 
     // Implement Database pull
@@ -76,6 +74,14 @@ public class Query {
         }
         return answer;
     }
-
+    public static String userAnswer(String question,String answers) {
+        String wholeAnswer = answers.replace(",", " or ");
+        System.out.println(question);
+        System.out.println(wholeAnswer);
+        Scanner scanner = new Scanner(System.in);
+        String userInputAnswer = "";
+        userInputAnswer = scanner.nextLine();
+        return userInputAnswer;
+    }
 
 }
