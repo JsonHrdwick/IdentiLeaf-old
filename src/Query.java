@@ -69,15 +69,14 @@ public class Query {
         for (int i = 0; i < answers.size(); i+=2){
             answer += answers.get(i);
             if (i < answers.size() - 2){
-                answer += ",";
+                answer += " or ";
             }
         }
         return answer;
     }
     public static String userAnswer(String question,String answers) {
-        String wholeAnswer = answers.replace(",", " or ");
         System.out.println(question);
-        System.out.println(wholeAnswer);
+        System.out.println(answers);
         Scanner scanner = new Scanner(System.in);
         String userInputAnswer = "";
         userInputAnswer = scanner.nextLine();
