@@ -51,14 +51,8 @@ public class Query {
         HashMap<String,ArrayList<String>> innerMap = questionMap.get(questionNumber);
         ArrayList<String> answers = innerMap.get(question);
         int SQLIndex = answers.indexOf(answer) + 1;
-        questionMap.remove(questionNumber);
         questionNumber++;
         return answers.get(SQLIndex);
-    }
-
-    // Validate output confidence
-    public boolean checkConfidence(){
-        return questionMap.size() <= 1;
     }
 
     // Returns answers as Strings and not SQL style
